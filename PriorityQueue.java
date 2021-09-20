@@ -7,8 +7,8 @@ import java.util.Map;
  * A priority queue class implemented using a min heap.
  * Priorities cannot be negative.
  * 
- * @author Your names
- * @version Date
+ * @author Bee Bridge and Eva Shimanski 
+ * @version September 25, 2020
  *
  */
 public class PriorityQueue {
@@ -20,7 +20,8 @@ public class PriorityQueue {
 	 *  Constructs an empty priority queue
 	 */
 	public PriorityQueue() {
-		// TODO: Fill in
+	this.heap = new List<Pair<>>;
+	this.location = new Map<>;
 	}
 
 	/**
@@ -38,7 +39,11 @@ public class PriorityQueue {
 	 *  
 	 */
 	public void push(int priority, int element) {
-		// TODO: Fill in
+		if(priority>=0){
+			if(this.heap.size = 0){
+				
+			}
+		}
 	}
 
 	/**
@@ -189,7 +194,7 @@ public class PriorityQueue {
 	 * @return index of element's left child in list
 	 */
 	private int left(int parent) {
-		// TODO: Fill in
+	return ((2*parent)+1);
 	}
 
 	/**
@@ -198,7 +203,8 @@ public class PriorityQueue {
 	 * @return index of element's right child in list
 	 */
 	private int right(int parent) {
-		// TODO: Fill in
+			return ((2*parent)+2);
+
 	}
 
 	/**
@@ -208,7 +214,7 @@ public class PriorityQueue {
 	 */
 
 	private int parent(int child) {
-		// TODO: Fill in
+		return ((child-1)/2);
 	}
 	
 
@@ -241,7 +247,10 @@ public class PriorityQueue {
 	 * @return true if element is a leaf
 	 */
 	private boolean isLeaf(int i){
-		// TODO: Fill in
+		if(this.location.containsValue(left(i)){ //Only checks the left child because we are filling the map left to right
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -250,14 +259,17 @@ public class PriorityQueue {
 	 * @return true if element in heap has two children
 	 */
 	private boolean hasTwoChildren(int i) {
-		// TODO: Fill in
+		if(this.location.containsValue(left(i))&&this.location.containsValue(right(i))){ //Checks to see if it has both children
+		return true;
+		}
+		return false;
 	}
 	
 	/**
 	 * Print the underlying list representation
 	 */
 	private void printHeap() {
-		// TODO: Fill in
+		system.out.println(this.heap.)
 	}
 
 	/**
