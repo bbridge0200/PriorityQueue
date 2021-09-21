@@ -71,8 +71,7 @@ public class PriorityQueue {
 	 *	</ul>
 	 */
 	public int topPriority() {	
-		return 0;	
-		// TODO: Fill in
+		return (this.heap.get(0)).priority;
 	}
 
 
@@ -86,8 +85,7 @@ public class PriorityQueue {
 	 *	</ul>
 	 */
 	public int topElement() {
-		return 0;
-		// TODO: Fill in
+		return (this.heap.get(0)).element;
 	}
 
 
@@ -105,7 +103,9 @@ public class PriorityQueue {
 	 *	</ul>
 	 */
 	public void changePriority(int newpriority, int element) {
-		// TODO: Fill in
+		int index = this.location.get(element);
+		Pair<Integer,Integer> p1 = new Pair(newpriority, element);
+		this.heap.set(index, p1);
 	}
 
 
@@ -121,8 +121,9 @@ public class PriorityQueue {
 	 *	</ul>
 	 */
 	public int getPriority(int element) {
-		// TODO: Fill in
-		return 0;
+		int index = this.location.get(element);
+		Pair<Integer,Integer> p1 =this.heap.get(index);
+		return p1.priority;
 	}
 
 	/**
@@ -130,8 +131,12 @@ public class PriorityQueue {
 	 *  @return true if the queue contains no elements, false otherwise
 	 */
 	public boolean isEmpty() {
-		// TODO: Fill in
-		return false;
+		if (this.heap.size() >0){
+			return false;
+		}
+		else{
+		return true;
+		}
 	}
 
 	/**
@@ -139,15 +144,21 @@ public class PriorityQueue {
 	 *  @return true if the element exists, false otherwise
 	 */
 	public boolean isPresent(int element) {
-		return false;
-		// TODO: Fill in
+		
+		if (this.location.containsKey(element)){
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 
 	/**
 	 *  Removes all elements from the priority queue
 	 */
 	public void clear() {
-		// TODO: Fill in
+		this.heap = new ArrayList<>();
+		this.location = new HashMap<>();
 	}
 
 	/**
@@ -155,8 +166,7 @@ public class PriorityQueue {
 	 *  @return number of elements in the priority queue
 	 */
 	public int size() {
-		return 0;
-		// TODO: Fill in
+		return heap.size(); 
 	}
 
 
@@ -194,11 +204,16 @@ public class PriorityQueue {
 	 * @param j The index of the element to be swapped
 	 */
 	private void swap(int i, int j) {
-		Pair<Integer,Integer> p1 = this.heap[i]; // int key1 = firss heap[i]
+		Pair<Integer,Integer> p1 = this.heap.get(i); //found (priority,element)
+		Pair<Integer,Integer> p2 = this.heap.get(j); 
+
+		this.heap.set(j, p1); //replace in heap spot j with p2 and vice versa
+		this.heap.set(i, p2);
 
 		//int key2 = heap[j];
-		this.location.replace(key1, j);
-		this.location.replace(key2,i);
+		this.location.replace(p1.element, j);//replace (element, new index in map)
+		this.location.replace(p2.element,i);
+
 
 	}
 
