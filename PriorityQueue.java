@@ -24,6 +24,10 @@ public class PriorityQueue {
 	this.heap = new ArrayList<>();
 	this.location = new HashMap<>();
 	}
+	public PriorityQueue(ArrayList arr, HashMap map) { //TODO remove test constructor
+		this.heap = arr;
+		this.location = map;
+	}
 
 	/**
 	 *  Insert a new element into the queue with the
@@ -71,7 +75,16 @@ public class PriorityQueue {
 	 *	</ul>
 	 */
 	public int topPriority() {	
-		return (this.heap.get(0)).priority;
+		int max = 0; 
+		for(int i = 0; i< this.heap.size(); i++){
+			if(isLeaf(i)){//is leaf takes an index
+				if((heap.get(i)).priority > max){
+					max = (heap.get(i)).priority;
+				}
+
+			}
+		}
+		return max;
 	}
 
 
