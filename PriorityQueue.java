@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Collections;
 
 /**
  * A priority queue class implemented using a min heap.
@@ -20,8 +21,8 @@ public class PriorityQueue {
 	 *  Constructs an empty priority queue
 	 */
 	public PriorityQueue() {
-	this.heap = new List<Pair<>>;
-	this.location = new Map<>;
+	this.heap = new ArrayList<>();
+	this.location = new HashMap<>();
 	}
 
 	/**
@@ -40,9 +41,9 @@ public class PriorityQueue {
 	 */
 	public void push(int priority, int element) {
 		if(priority>=0){
-			if(this.heap.size = 0){
+			
 				
-			}
+			
 		}
 	}
 
@@ -69,7 +70,8 @@ public class PriorityQueue {
 	 *	<li> The priority queue is non-empty.</li>
 	 *	</ul>
 	 */
-	public int topPriority() {		
+	public int topPriority() {	
+		return 0;	
 		// TODO: Fill in
 	}
 
@@ -84,6 +86,7 @@ public class PriorityQueue {
 	 *	</ul>
 	 */
 	public int topElement() {
+		return 0;
 		// TODO: Fill in
 	}
 
@@ -119,6 +122,7 @@ public class PriorityQueue {
 	 */
 	public int getPriority(int element) {
 		// TODO: Fill in
+		return 0;
 	}
 
 	/**
@@ -127,6 +131,7 @@ public class PriorityQueue {
 	 */
 	public boolean isEmpty() {
 		// TODO: Fill in
+		return false;
 	}
 
 	/**
@@ -134,6 +139,7 @@ public class PriorityQueue {
 	 *  @return true if the element exists, false otherwise
 	 */
 	public boolean isPresent(int element) {
+		return false;
 		// TODO: Fill in
 	}
 
@@ -149,6 +155,7 @@ public class PriorityQueue {
 	 *  @return number of elements in the priority queue
 	 */
 	public int size() {
+		return 0;
 		// TODO: Fill in
 	}
 
@@ -165,6 +172,7 @@ public class PriorityQueue {
 	 * @return the index in the list where the element is finally stored
 	 */
 	private int pushDown(int start_index) {	
+		return 0;
 		// TODO: Fill in
 	}
 
@@ -174,6 +182,7 @@ public class PriorityQueue {
 	 * @return the index in the list where the element is finally stored
 	 */
 	private int percolateUp(int start_index) {
+		return 0;
 		// TODO: Fill in
 	}
 
@@ -185,7 +194,12 @@ public class PriorityQueue {
 	 * @param j The index of the element to be swapped
 	 */
 	private void swap(int i, int j) {
-		// TODO: Fill in
+		Pair<Integer,Integer> p1 = this.heap[i]; // int key1 = firss heap[i]
+
+		//int key2 = heap[j];
+		this.location.replace(key1, j);
+		this.location.replace(key2,i);
+
 	}
 
 	/**
@@ -229,6 +243,7 @@ public class PriorityQueue {
 	 */
 	private int pushDownRoot() {
 		// TODO: A one-line function that calls pushDown()
+		return 0;
 	}
 
 	/**
@@ -239,6 +254,7 @@ public class PriorityQueue {
 	 */
 	private int percolateUpLeaf(){
 		// TODO: A one-line function that calls percolateUp()
+		return 0;
 	}
 	
 	/**
@@ -247,7 +263,7 @@ public class PriorityQueue {
 	 * @return true if element is a leaf
 	 */
 	private boolean isLeaf(int i){
-		if(this.location.containsValue(left(i)){ //Only checks the left child because we are filling the map left to right
+		if(this.location.containsValue(left(i))){ //Only checks the left child because we are filling the map left to right
 			return false;
 		}
 		return true;
@@ -269,14 +285,18 @@ public class PriorityQueue {
 	 * Print the underlying list representation
 	 */
 	private void printHeap() {
-		system.out.println(this.heap.)
+		
+		System.out.println(location.toString());
 	}
 
 	/**
 	 * Print the entries in the location map
 	 */
 	private void printMap() {
-		// TODO: Fill in
+		for(int i=0; i < location.size();i ++){
+			System.out.println(Collections.min(location.values()));
+		}
+		
 	}
 
 	
