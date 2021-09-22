@@ -24,9 +24,13 @@ public class PriorityQueue {
 	this.heap = new ArrayList<>();
 	this.location = new HashMap<>();
 	}
-	public PriorityQueue(ArrayList arr, HashMap map) { //TODO remove test constructor
-		this.heap = arr;
+	public void setLocation(HashMap<Integer,Integer> map) { //TODO remove test constructor
+		
 		this.location = map;
+	}
+	public void setHeap(ArrayList<Pair<Integer,Integer>> list) { //TODO remove test constructor
+		
+		this.heap = list;
 	}
 
 	/**
@@ -117,7 +121,7 @@ public class PriorityQueue {
 	 */
 	public void changePriority(int newpriority, int element) {
 		int index = this.location.get(element);
-		Pair<Integer,Integer> p1 = new Pair(newpriority, element);
+		Pair<Integer,Integer> p1 = new Pair<>(newpriority, element);
 		this.heap.set(index, p1);
 	}
 
@@ -135,7 +139,7 @@ public class PriorityQueue {
 	 */
 	public int getPriority(int element) {
 		int index = this.location.get(element);
-		Pair<Integer,Integer> p1 =this.heap.get(index);
+		Pair<Integer,Integer> p1 = this.heap.get(index);
 		return p1.priority;
 	}
 
