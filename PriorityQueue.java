@@ -219,8 +219,6 @@ public class PriorityQueue {
 	private void swap(int i, int j) {//TODO
 		Pair<Integer,Integer> p1 = this.heap.get(i); //found (priority,element)
 		Pair<Integer,Integer> p2 = this.heap.get(j); 
-		System.out.println("the heap at item " + i +"is "+p1.toString());
-		System.out.println("the heap at item " + j+"is "+p2.toString());
 		this.heap.set(j, p1); //replace in heap spot j with p2 and vice versa
 		this.heap.set(i, p2);
 		
