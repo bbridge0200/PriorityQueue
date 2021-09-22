@@ -24,11 +24,11 @@ public class PriorityQueue {
 	this.heap = new ArrayList<>();
 	this.location = new HashMap<>();
 	}
-	public void setLocation(HashMap<Integer,Integer> map) { //TODO remove test constructor
+	public void setLocation(HashMap<Integer,Integer> map) { //TODO remove
 		
 		this.location = map;
 	}
-	public void setHeap(ArrayList<Pair<Integer,Integer>> list) { //TODO remove test constructor
+	public void setHeap(ArrayList<Pair<Integer,Integer>> list) { //TODO remove
 		
 		this.heap = list;
 	}
@@ -47,12 +47,8 @@ public class PriorityQueue {
 	 *	</ul>
 	 *  
 	 */
-	public void push(int priority, int element) {
-		if(priority>=0){
-			
-				
-			
-		}
+	public void push(int priority, int element) {//TODO
+		
 	}
 
 	/**
@@ -220,13 +216,14 @@ public class PriorityQueue {
 	 * @param i The index of the element to be swapped
 	 * @param j The index of the element to be swapped
 	 */
-	private void swap(int i, int j) {
+	private void swap(int i, int j) {//TODO
 		Pair<Integer,Integer> p1 = this.heap.get(i); //found (priority,element)
 		Pair<Integer,Integer> p2 = this.heap.get(j); 
-
+		System.out.println("the heap at item " + i +"is "+p1.toString());
+		System.out.println("the heap at item " + j+"is "+p2.toString());
 		this.heap.set(j, p1); //replace in heap spot j with p2 and vice versa
 		this.heap.set(i, p2);
-
+		
 		//int key2 = heap[j];
 		this.location.replace(p1.element, j);//replace (element, new index in map)
 		this.location.replace(p2.element,i);
@@ -240,7 +237,13 @@ public class PriorityQueue {
 	 * @return index of element's left child in list
 	 */
 	private int left(int parent) {
-	return ((2*parent)+1);
+		if(((2*parent)+1)<= this.heap.size()){
+			return ((2*parent)+1);
+		}
+		else{
+			return -1;
+		}
+
 	}
 
 	/**
@@ -249,8 +252,12 @@ public class PriorityQueue {
 	 * @return index of element's right child in list
 	 */
 	private int right(int parent) {
-			return ((2*parent)+2);
-
+			if(((2*parent)+2)<= this.heap.size()){
+				return ((2*parent)+2);
+			}
+			else{
+				return -1;
+			}
 	}
 
 	/**
@@ -260,7 +267,12 @@ public class PriorityQueue {
 	 */
 
 	private int parent(int child) {
-		return ((child-1)/2);
+		if(child > 0){
+			return ((child-1)/2);
+		}
+		else{
+			return -1;
+		}
 	}
 	
 
@@ -306,7 +318,7 @@ public class PriorityQueue {
 	 * @param i index of element in the heap
 	 * @return true if element in heap has two children
 	 */
-	private boolean hasTwoChildren(int i) {
+	private boolean hasTwoChildren(int i) {//
 		if(this.location.containsValue(left(i))&&this.location.containsValue(right(i))){ //Checks to see if it has both children
 		return true;
 		}
@@ -316,19 +328,23 @@ public class PriorityQueue {
 	/**
 	 * Print the underlying list representation
 	 */
-	private void printHeap() {
+	public void printHeap() { //TODO
+		//for(int i=0; i < location.size();i ++){
+		//	System.out.println(Collections.min(location.values()));
+		//}
+		for(int i = 0; i< heap.size(); i++){
+			System.out.println(heap.get(i).toString());
+		}
 		
-		System.out.println(location.toString());
+		
 	}
 
 	/**
 	 * Print the entries in the location map
 	 */
-	private void printMap() {
-		for(int i=0; i < location.size();i ++){
-			System.out.println(Collections.min(location.values()));
-		}
+	public void printMap() {//TODO
 		
+		System.out.println(location.toString());
 	}
 
 	

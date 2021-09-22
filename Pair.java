@@ -12,4 +12,7 @@ public class Pair<P, E> {
 		priority = p;
 		element = e;
 	}
+	public String toString(){
+		return (priority+"," +element);
+	}
 }
