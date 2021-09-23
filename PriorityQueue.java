@@ -2,11 +2,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Collections;
 
 /**
- * A priority queue class implemented using a min heap. Priorities cannot be
- * negative.
+ * A priority queue class implemented using a min heap and HashMap. Priorities
+ * cannot be negative and are integers.
  * 
  * @author Bee Bridge and Eva Shimanski
  * @version September 25, 2020
@@ -25,16 +24,6 @@ public class PriorityQueue {
 		this.location = new HashMap<>();
 	}
 
-	public void setLocation(HashMap<Integer, Integer> map) { // TODO remove
-
-		this.location = map;
-	}
-
-	public void setHeap(ArrayList<Pair<Integer, Integer>> list) { // TODO remove
-
-		this.heap = list;
-	}
-
 	/**
 	 * Insert a new element into the queue with the given priority.
 	 *
@@ -50,7 +39,10 @@ public class PriorityQueue {
 	 * 
 	 */
 	public void push(int priority, int element) {
-		Pair p1 = new Pair(priority, element);
+		if (isPresent(element)) {
+			throw new AssertionError();
+		}
+		Pair p1 = new Pair<>(priority, element);
 		heap.add(p1);
 		location.put(element, heap.size() - 1);
 		percolateUpLeaf();
@@ -125,7 +117,7 @@ public class PriorityQueue {
 	 */
 	public void changePriority(int newpriority, int element) {
 		int index = this.location.get(element);
-		Pair<Integer, Integer> p1 = new Pair<>(newpriority, element);
+		Pair p1 = new Pair<>(newpriority, element);
 		this.heap.set(index, p1);
 	}
 
@@ -222,15 +214,19 @@ public class PriorityQueue {
 	 * @return the index in the list where the element is finally stored
 	 */
 	private int percolateUp(int start_index) {
-		// check parent
-		int childPrior = this.heap.get(start_index).priority;
-		int parentPrior = this.heap.get(parent(start_index)).priority;
-		if (parentPrior > childPrior) {
-			swap(start_index, parent(start_index));
-			percolateUp(parent(start_index));
+		if (start_index == 0) {
+			return start_index;
+		} else {
+			// check parent
+			int childPrior = this.heap.get(start_index).priority;
+			int parentPrior = this.heap.get(parent(start_index)).priority;
+			if (parentPrior > childPrior) {
+				swap(start_index, parent(start_index));
+				percolateUp(parent(start_index));
 
+			}
+			return start_index;
 		}
-		return start_index;
 	}
 
 	/**
