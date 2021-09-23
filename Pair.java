@@ -7,12 +7,13 @@
 public class Pair<P, E> {
 	public P priority;
 	public E element;
-	
+
 	public Pair(P p, E e) {
 		priority = p;
 		element = e;
 	}
-	public String toString(){
-		return (priority+"," +element);
+
+	public String toString() {
+		return (priority + "," + element);
 	}
 }
