@@ -2,10 +2,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Collections;
 
 /**
- * A priority queue class implemented using a min heap and HashMap. Priorities
- * cannot be negative and are integers.
+ * A priority queue class implemented using a min heap. Priorities cannot be
+ * negative.
  * 
  * @author Bee Bridge and Eva Shimanski
  * @version September 25, 2020
@@ -39,14 +40,14 @@ public class PriorityQueue {
 	 * 
 	 */
 	public void push(int priority, int element) {
-		if (isPresent(element)) {
-			throw new AssertionError();
+		if (isPresent(element) && priority >= 0) {
+			throw new AssertionError(); // throw error if the element is present in queue or priority is smaller than 0
+		} else {
+			Pair p1 = new Pair(priority, element);
+			this.heap.add(p1);
+			this.location.put(element, this.heap.size() - 1);
+			percolateUpLeaf(); // determine if the pair needs to be moved in the tree
 		}
-		Pair p1 = new Pair<>(priority, element);
-		heap.add(p1);
-		location.put(element, heap.size() - 1);
-		percolateUpLeaf();
-
 	}
 
 	/**
@@ -59,12 +60,16 @@ public class PriorityQueue {
 	 * 
 	 */
 	public void pop() {
-		int posLastLeaf = heap.size() - 1;
-		swap(0, posLastLeaf);
-		location.remove((heap.get(size() - 1)).element);
-		heap.remove(heap.size() - 1);
-
-		pushDownRoot();
+		if (isEmpty()) {
+			throw new AssertionError();
+		} else {
+			int posLastLeaf = this.heap.size() - 1; // determine the position of the last leaf
+			swap(0, posLastLeaf); // swap the root and last pair
+			this.location.remove((this.heap.get(size() - 1)).element); // remove the prior root before moving down the
+																		// current root
+			this.heap.remove(this.heap.size() - 1);
+			pushDownRoot(); // determine the location of the current root and see if it need to be moved
+		}
 
 	}
 
@@ -79,14 +84,11 @@ public class PriorityQueue {
 	 *         </ul>
 	 */
 	public int topPriority() {
-		return heap.get(0).priority;
-		/**
-		 * int max = 0; for (int i = 0; i < this.heap.size(); i++) { if (isLeaf(i)) {//
-		 * is leaf takes an index if ((heap.get(i)).priority > max) { max =
-		 * (heap.get(i)).priority; }
-		 * 
-		 * } } return max;
-		 */
+		if (isEmpty()) {
+			throw new AssertionError();
+		} else {
+			return this.heap.get(0).priority; // determines the priority of the top element (the root)
+		}
 	}
 
 	/**
@@ -100,7 +102,12 @@ public class PriorityQueue {
 	 *         </ul>
 	 */
 	public int topElement() {
-		return (this.heap.get(0)).element;
+		if (isEmpty()) {
+			throw new AssertionError();
+		} else {
+			return (this.heap.get(0)).element; // determines the element that is at the root node
+		}
+
 	}
 
 	/**
@@ -116,9 +123,14 @@ public class PriorityQueue {
 	 *                    </ul>
 	 */
 	public void changePriority(int newpriority, int element) {
-		int index = this.location.get(element);
-		Pair p1 = new Pair<>(newpriority, element);
-		this.heap.set(index, p1);
+		if (isPresent(element) && newPriority >= 0) {
+			int index = this.location.get(element); // determine the index of the element
+			Pair<Integer, Integer> p1 = new Pair<>(newpriority, element); // create a new pair with the element and the
+																			// new priority
+			this.heap.set(index, p1); // put the new pair at the index
+		} else {
+			throw new AssertionError();
+		}
 	}
 
 	/**
@@ -133,9 +145,13 @@ public class PriorityQueue {
 	 *         </ul>
 	 */
 	public int getPriority(int element) {
-		int index = this.location.get(element);
-		Pair<Integer, Integer> p1 = this.heap.get(index);
-		return p1.priority;
+		if (isPresent(element)) {
+			int index = this.location.get(element); // determine the index of the element
+			Pair<Integer, Integer> p1 = this.heap.get(index);
+			return p1.priority; // determine the priority from the pair
+		} else {
+			throw new AssertionError();
+		}
 	}
 
 	/**
@@ -157,7 +173,6 @@ public class PriorityQueue {
 	 * @return true if the element exists, false otherwise
 	 */
 	public boolean isPresent(int element) {
-
 		if (this.location.containsKey(element)) {
 			return true;
 		} else {
@@ -179,7 +194,7 @@ public class PriorityQueue {
 	 * @return number of elements in the priority queue
 	 */
 	public int size() {
-		return heap.size();
+		return this.heap.size();
 	}
 
 	/*********************************************************
@@ -193,14 +208,13 @@ public class PriorityQueue {
 	 * @return the index in the list where the element is finally stored
 	 */
 	private int pushDown(int start_index) {
-		// check child
 		int parentPrior = this.heap.get(start_index).priority;
 		int lchildPrior = this.heap.get(left(start_index)).priority;
 		int rchildPrior = this.heap.get(right(start_index)).priority;
 		if (parentPrior > lchildPrior) {
 			swap(start_index, left(start_index));
-			pushDown(left(start_index));
-		} else if (parentPrior > rchildPrior) {
+			pushDown(left(start_index)); // recursive call to check the next children node
+		} else if (parentPrior > rchildPrior) { // same as above but with the right node
 			swap(start_index, right(start_index));
 			pushDown(right(start_index));
 		}
@@ -214,19 +228,18 @@ public class PriorityQueue {
 	 * @return the index in the list where the element is finally stored
 	 */
 	private int percolateUp(int start_index) {
-		if (start_index == 0) {
-			return start_index;
-		} else {
-			// check parent
+		if (start_index > 0) { // ensure that the start index is greater than or equal to 0 to avoid
+								// IndexOutOfBound exception
 			int childPrior = this.heap.get(start_index).priority;
 			int parentPrior = this.heap.get(parent(start_index)).priority;
 			if (parentPrior > childPrior) {
-				swap(start_index, parent(start_index));
-				percolateUp(parent(start_index));
-
+				swap(start_index, parent(start_index)); // swap the indicies to percolate up
+				percolateUp(parent(start_index)); // call recursivley to determine if the grandparent node needs to be
+													// swapped
 			}
 			return start_index;
 		}
+		return start_index;
 	}
 
 	/**
@@ -237,15 +250,12 @@ public class PriorityQueue {
 	 * @param j The index of the element to be swapped
 	 */
 	private void swap(int i, int j) {
-		Pair<Integer, Integer> p1 = this.heap.get(i); // found (priority,element)
+		Pair<Integer, Integer> p1 = this.heap.get(i);
 		Pair<Integer, Integer> p2 = this.heap.get(j);
 		this.heap.set(j, p1); // replace in heap spot j with p2 and vice versa
 		this.heap.set(i, p2);
-
-		// int key2 = heap[j];
 		this.location.replace(p1.element, j);// replace (element, new index in map)
 		this.location.replace(p2.element, i);
-
 	}
 
 	/**
@@ -256,7 +266,6 @@ public class PriorityQueue {
 	 */
 	private int left(int parent) {
 		return ((2 * parent) + 1);
-
 	}
 
 	/**
@@ -267,7 +276,6 @@ public class PriorityQueue {
 	 */
 	private int right(int parent) {
 		return ((2 * parent) + 2);
-
 	}
 
 	/**
@@ -295,7 +303,7 @@ public class PriorityQueue {
 	 * @return the index in the list where the element is finally stored
 	 */
 	private int pushDownRoot() {
-		return pushDown(0);
+		return pushDown(0); // pushes down the start index of the root which is 0
 	}
 
 	/**
@@ -305,7 +313,7 @@ public class PriorityQueue {
 	 * @return the index in the list where the element is finally stored
 	 */
 	public int percolateUpLeaf() {
-		return percolateUp(heap.size() - 1);
+		return percolateUp(this.heap.size() - 1);
 
 	}
 
@@ -316,11 +324,12 @@ public class PriorityQueue {
 	 * @return true if element is a leaf
 	 */
 	private boolean isLeaf(int i) {
-		if (this.location.containsValue(left(i))) { // Only checks the left child because we are filling the map left to
+		if (this.location.containsValue(left(i))) { // Only checks the left child as we are filling the map left to
 													// right
 			return false;
+		} else {
+			return true;
 		}
-		return true;
 	}
 
 	/**
@@ -330,22 +339,19 @@ public class PriorityQueue {
 	 * @return true if element in heap has two children
 	 */
 	private boolean hasTwoChildren(int i) {//
-		if (this.location.containsValue(left(i)) && this.location.containsValue(right(i))) { // Checks to see if it has
-																								// both children
+		if (this.location.containsValue(left(i)) && this.location.containsValue(right(i))) {
 			return true;
+		} else {
+			return false;
 		}
-		return false;
 	}
 
 	/**
 	 * Print the underlying list representation
 	 */
 	public void printHeap() { // TODO
-		// for(int i=0; i < location.size();i ++){
-		// System.out.println(Collections.min(location.values()));
-		// }
-		for (int i = 0; i < heap.size(); i++) {
-			System.out.println(heap.get(i).toString());
+		for (int i = 0; i < this.heap.size(); i++) {
+			System.out.println(this.heap.get(i).toString());
 		}
 
 	}
@@ -354,7 +360,6 @@ public class PriorityQueue {
 	 * Print the entries in the location map
 	 */
 	public void printMap() {// TODO
-
 		System.out.println(location.toString());
 	}
 
